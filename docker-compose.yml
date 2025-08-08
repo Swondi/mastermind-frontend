@@ -1,0 +1,20 @@
+name: mastermind-frontend
+
+services:
+  mastermind-frontend:
+    container_name: mastermind-frontend
+    build:
+      context: .
+      dockerfile: .docker/local/Dockerfile
+    restart: unless-stopped
+    ports:
+      - 9090:80
+    networks:
+      mastermind:
+      nginx-proxy-manager_default:
+
+networks:
+  mastermind:
+    name: mastermind
+  nginx-proxy-manager_default:
+    external: true
