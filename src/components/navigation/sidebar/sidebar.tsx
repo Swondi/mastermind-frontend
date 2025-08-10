@@ -4,14 +4,9 @@ import { ProfileBar } from "../profile/profile-bar";
 import { SidebarEntry } from "./sidebar-entry";
 import { SidebarGroup } from "./sidebar-group";
 import { SidebarWrapper } from "./sidebar-wrapper";
-import { useNavigate } from "react-router";
-import { useAuth } from "@/hooks/authentication/auth-hook";
 
 
 export function Sidebar() {
-  const { logout } = useAuth()
-  const navigate = useNavigate()
-
   const user = { name: 'Franky', email: 'francesco.macaluso@gmail.com'}
   return (
     <SidebarWrapper>
@@ -39,13 +34,11 @@ export function Sidebar() {
         <SidebarFooter className="pb-5">
           <SidebarGroup>
             <SidebarEntry icon={FiKey} text="Api Keys" />
-            <SidebarEntry icon={FiSettings} text="Settings" />
+            <SidebarEntry icon={FiSettings} text="Settings" href="/settings"/>
           </SidebarGroup>
           <ProfileBar
             username={user.name}
             email={user.email}
-            onSettings={() => navigate('/settings')}
-            onLogout={logout}
           />
         </SidebarFooter>
       </SidebarWrapper>

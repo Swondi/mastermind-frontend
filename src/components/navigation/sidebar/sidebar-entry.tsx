@@ -1,5 +1,6 @@
 import { SidebarMenuItem, SidebarMenuButton } from "@/components/ui/sidebar";
 import type { IconType } from "react-icons/lib";
+import { useNavigate } from "react-router";
 
 export function SidebarEntry({
   icon: Icon,
@@ -10,13 +11,15 @@ export function SidebarEntry({
   text: string;
   href?: string;
 }) {
+  const navigate = useNavigate()
+
   return (
     <SidebarMenuItem>
       <SidebarMenuButton asChild>
-        <a href={href}>
-          <Icon />
-          <span>{text}</span>
-        </a>
+          <div className="flex hover:cursor-pointer" onClick={() => navigate(href)}>
+            <Icon />
+            <span>{text}</span>
+          </div>
       </SidebarMenuButton>
     </SidebarMenuItem>
   );

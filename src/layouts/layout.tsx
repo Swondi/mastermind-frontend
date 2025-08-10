@@ -14,7 +14,7 @@ export function Layout() {
   }, [isAuthenticated]);
  
   return (
-    <section className="flex h-screen w-screen gap-10 bg-gray-100">
+    <section className="flex h-screen w-screen gap-10">
       <Sidebar />
       <Outlet />
     </section>

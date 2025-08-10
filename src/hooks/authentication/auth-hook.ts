@@ -2,7 +2,7 @@ import { create } from 'zustand'
 import { createJSONStorage, persist } from 'zustand/middleware'
 import axios from 'axios'
 
-export interface AuthState {
+interface AuthState {
   user: { id: number; email: string } | null
   register: (email: string, password: string) => Promise<void>
   login: (email: string, password: string) => Promise<void>

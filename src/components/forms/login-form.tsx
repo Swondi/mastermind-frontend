@@ -99,7 +99,7 @@ export default function LoginForm() {
                 />
               </div>
               <Button type="submit" className="w-full select-none hover:cursor-pointer">
-                {isloading ? <LuLoaderCircle /> : 'Login'}
+                {isloading ? <LuLoaderCircle className='animate-spin duration-200'/> : 'Login'}
               </Button>
             </div>
           </form>

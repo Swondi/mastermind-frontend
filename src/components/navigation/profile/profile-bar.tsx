@@ -1,22 +1,21 @@
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import { FiLogOut, FiSettings } from "react-icons/fi";
+import { useAuth } from "@/hooks/authentication/auth-hook";
+import { FiLogOut } from "react-icons/fi";
 
 export function ProfileBar({
   username,
   email,
   avatarUrl,
-  onLogout,
-  onSettings,
 }: {
   username: string;
   email: string;
   avatarUrl?: string;
-  onLogout?: () => void;
-  onSettings?: () => void;
 }) {
+  const { logout } = useAuth()
+  
   return (
     <>
-      <div className="w-full h-0.5 bg-gray-200"></div>
+      <div className="w-full h-0.5 bg-accent"></div>
       <div className="flex items-center gap-3 p-3 rounded-md hover:cursor-pointer hover:bg-sidebar-accent"
         onClick={() => console.log('profile clicked')}
       >
@@ -36,27 +35,15 @@ export function ProfileBar({
               <p>Logged in as <span className="font-semibold">{email}</span></p>
             </TooltipContent>
           </Tooltip>
-          <div className="flex gap-2 text-gray-500 text-sm">
-            {onSettings && (
-              <button className="hover:text-gray-800 hover:cursor-pointer"
-                onClick={(e) => {
-                  e.stopPropagation()
-                  console.log('settings')
-                }}
-              >
-                <FiSettings size={16} />
-              </button>
-            )}
-            {onLogout && (
-              <button className="hover:text-red-500 hover:cursor-pointer"
-                onClick={(e) => {
-                  e.stopPropagation()
-                  console.log('loggin out')
-                }}
-              >
-                <FiLogOut size={16} />
-              </button>
-            )}
+          <div className="flex gap-2 text-sm">
+            <button className="hover:text-red-500 hover:cursor-pointer hover:scale-105"
+              onClick={(e) => {
+                e.stopPropagation()
+                logout()
+              }}
+            >
+              <FiLogOut size={16} />
+            </button>
           </div>
         </div>
       </div>
