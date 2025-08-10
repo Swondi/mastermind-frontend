@@ -9,6 +9,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui
 import { useState } from 'react'
 import { Label } from '../ui/label'
 import { LuEye, LuEyeClosed } from 'react-icons/lu'
+import { useAuth } from '@/hooks/authentication/auth-hook'
 
 const LoginFormSchema = z.object({
   email: z.email(),
@@ -22,23 +23,22 @@ const LoginFormSchema = z.object({
   .refine((val) => /[a-z]/.test(val), {
     message: "Password must include at least one lowercase letter."
   })
-  .refine((val) => /[^A-Za-z0-9]/.test(val), {
-    message: "Password must include at least one symbol."
-  })
 })
 
 export default function LoginForm() {
   const [ passwordVisible, setPasswordVisible] = useState<boolean>(false)
+  const { login, isloading } = useAuth();
+
   const form = useForm<z.infer<typeof LoginFormSchema>>({
     resolver: zodResolver(LoginFormSchema),
     defaultValues: {
-      email: '',
-      password: ''
+      email: 'franky@gmail.com',
+      password: 'FrancescoMaca2002'
     }
   })
 
-  function onSubmit(data: z.infer<typeof LoginFormSchema>) {
-    alert(`You submitted the following values: ${JSON.stringify(data, null, 2)}`);
+  async function onFormSubmit(data: z.infer<typeof LoginFormSchema>) {
+    await login(data.email, data.password)
   }
 
   return (
@@ -53,7 +53,7 @@ export default function LoginForm() {
       </CardHeader>
       <CardContent>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)}>
+          <form onSubmit={form.handleSubmit(onFormSubmit)}>
             <div className="flex flex-col gap-6">
               <div className="grid gap-2">
                 <Label htmlFor="email">Email</Label>
@@ -99,7 +99,7 @@ export default function LoginForm() {
                 />
               </div>
               <Button type="submit" className="w-full select-none hover:cursor-pointer">
-                Login
+                {isloading ? <div>Loading...</div> : 'Login'}
               </Button>
             </div>
           </form>
