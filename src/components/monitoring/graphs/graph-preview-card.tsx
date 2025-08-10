@@ -7,6 +7,24 @@ import { type ChartConfig, ChartContainer, ChartLegend, ChartLegendContent, Char
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
 const chartData = [
+  { date: "2024-03-14", cpu: 0, ram: 0 },
+  { date: "2024-03-15", cpu: 0, ram: 0 },
+  { date: "2024-03-16", cpu: 0, ram: 0 },
+  { date: "2024-03-17", cpu: 0, ram: 0 },
+  { date: "2024-03-18", cpu: 0, ram: 0 },
+  { date: "2024-03-19", cpu: 0, ram: 0 },
+  { date: "2024-03-20", cpu: 0, ram: 0 },
+  { date: "2024-03-21", cpu: 0, ram: 0 },
+  { date: "2024-03-22", cpu: 0, ram: 0 },
+  { date: "2024-03-23", cpu: 0, ram: 0 },
+  { date: "2024-03-24", cpu: 0, ram: 0 },
+  { date: "2024-03-25", cpu: 0, ram: 0 },
+  { date: "2024-03-26", cpu: 0, ram: 0 },
+  { date: "2024-03-27", cpu: 0, ram: 0 },
+  { date: "2024-03-28", cpu: 0, ram: 0 },
+  { date: "2024-03-29", cpu: 0, ram: 0 },
+  { date: "2024-03-30", cpu: 0, ram: 0 },
+  { date: "2024-03-31", cpu: 0, ram: 0 },
   { date: "2024-04-01", cpu: 222, ram: 150 },
   { date: "2024-04-02", cpu: 97, ram: 180 },
   { date: "2024-04-03", cpu: 167, ram: 120 },
@@ -119,7 +137,7 @@ export function GraphPreviewCard() {
 
   const filteredData = chartData.filter((item) => {
     const date = new Date(item.date)
-    const referenceDate = new Date("2024-06-30")
+    const referenceDate = new Date("2024-01-30")
     let daysToSubtract = 90
     if (timeRange === "30d") {
       daysToSubtract = 30

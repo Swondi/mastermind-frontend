@@ -8,15 +8,16 @@ import { useNavigate } from "react-router";
 import { useAuth } from "@/hooks/authentication/auth-hook";
 
 
-export function Sidebar({user}: {user: string}) {
+export function Sidebar() {
   const { logout } = useAuth()
   const navigate = useNavigate()
 
+  const user = { name: 'Franky', email: 'francesco.macaluso@gmail.com'}
   return (
     <SidebarWrapper>
         <SidebarHeader className="pt-5">
           <SidebarMenu>
-            <span className="font-bold">Hello, {user}!</span>
+            <span className="font-bold">Hello, {user.name}!</span>
           </SidebarMenu>
         </SidebarHeader>
 
@@ -41,7 +42,8 @@ export function Sidebar({user}: {user: string}) {
             <SidebarEntry icon={FiSettings} text="Settings" />
           </SidebarGroup>
           <ProfileBar
-            username={user}
+            username={user.name}
+            email={user.email}
             onSettings={() => navigate('/settings')}
             onLogout={logout}
           />

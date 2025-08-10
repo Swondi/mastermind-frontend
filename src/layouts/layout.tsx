@@ -14,8 +14,8 @@ export function Layout() {
   }, [isAuthenticated]);
  
   return (
-    <section className="flex h-screen w-screen">
-      <Sidebar user="Franky"/>
+    <section className="flex h-screen w-screen gap-10 bg-gray-100">
+      <Sidebar />
       <Outlet />
     </section>
   );
