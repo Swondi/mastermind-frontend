@@ -1,15 +1,15 @@
 import LoginForm from "@/components/forms/login-form";
 import { useAuth } from "@/hooks/authentication/auth-hook";
-import { useLayoutEffect } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router";
 
-export default function LoginPage() {
+export function LoginPage() {
   const { isAuthenticated } = useAuth()
   const navigate = useNavigate()
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (isAuthenticated) {
-      navigate('/about')
+      navigate('/', { replace: true })
     }
   }, [isAuthenticated]);
 

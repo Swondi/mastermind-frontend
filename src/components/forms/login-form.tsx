@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card'
 import { useState } from 'react'
 import { Label } from '../ui/label'
-import { LuEye, LuEyeClosed } from 'react-icons/lu'
+import { LuEye, LuEyeClosed, LuLoaderCircle } from 'react-icons/lu'
 import { useAuth } from '@/hooks/authentication/auth-hook'
 
 const LoginFormSchema = z.object({
@@ -87,19 +87,19 @@ export default function LoginForm() {
                     <FormItem className='flex items-center gap-3'>
                       <div className='flex flex-col w-full'>
                         <FormControl>
-                          <Input placeholder="FractalCow123" {...field} className='select-none'/>
+                          <Input placeholder="FractalCow123" type={passwordVisible ? 'text' : 'password'} {...field} className='select-none'/>
                         </FormControl>
                         <FormMessage />
                       </div>
                       <div onClick={() => setPasswordVisible(!passwordVisible)} className="cursor-pointer py-2 mb-auto">
-                        {passwordVisible ? <LuEyeClosed className="w-5 h-5"/> : <LuEye className="w-5 h-5 hover:scale-y-110 transition-all"/>}
+                        {passwordVisible ? <LuEye className="w-5 h-5 hover:scale-y-110 transition-all"/> : <LuEyeClosed className="w-5 h-5"/>}
                       </div>
                     </FormItem>
                   )}
                 />
               </div>
               <Button type="submit" className="w-full select-none hover:cursor-pointer">
-                {isloading ? <div>Loading...</div> : 'Login'}
+                {isloading ? <LuLoaderCircle /> : 'Login'}
               </Button>
             </div>
           </form>
