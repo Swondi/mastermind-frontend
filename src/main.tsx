@@ -11,6 +11,8 @@ import { ProfileSettings } from './pages/settings/profile-settings'
 import { NotificationSettings } from './pages/settings/notification-settings'
 import { AppearanceSettings } from './pages/settings/appearance-settings'
 import { useSettings } from './hooks/system/use-settings'
+import { ProtectedRoute } from './components/navigation/routes/protected-route'
+import { ForgotPasswordPage } from './pages/authentication/forgot-password-page'
 
 createRoot(document.getElementById('root')!).render(<App />)
 
@@ -26,11 +28,20 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path='/login' element={<LoginPage />}/>
-          <Route path='/' element={<Layout />}>
+          <Route path='/password-reset' element={<ForgotPasswordPage />}/>
+          <Route path='/' element={
+            <ProtectedRoute>
+              <Layout />
+            </ProtectedRoute>
+          }>
             <Route index element={<DashboardPage />}/>
             <Route path='customers' element={<CustomersPage />}/>
           </Route>
-          <Route path='/settings' element={<SettingsPage />}>
+          <Route path='/settings' element={
+            <ProtectedRoute>
+              <SettingsPage />
+            </ProtectedRoute>
+          }>
             <Route index element={<ProfileSettings />}/>
             <Route path="notifications" element={<NotificationSettings />}/>
             <Route path="appearance"  element={<AppearanceSettings />}/>

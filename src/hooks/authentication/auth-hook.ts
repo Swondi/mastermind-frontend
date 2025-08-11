@@ -1,21 +1,21 @@
 import { create } from 'zustand'
 import { createJSONStorage, persist } from 'zustand/middleware'
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 
 interface AuthState {
-  user: { id: number; email: string } | null
-  isAuthenticated: boolean,
-  isloading: boolean,
+  isAuthenticated: boolean
+  isloading: boolean
+  error: string
   register: (email: string, password: string) => Promise<void>
   login: (email: string, password: string) => Promise<void>
-  logout: () => Promise<void>,
+  logout: () => Promise<void>
   checkAuth: () => Promise<void>
 }
 
 export const useAuth = create<AuthState>()(persist((set) => ({
-  user: null,
   isAuthenticated: document.cookie.includes('at=') && document.cookie.includes('rt='),
   isloading: false,
+  error: "",
   register: async (email: string, password: string) => {
     try {
       set({isloading: true})
@@ -25,11 +25,16 @@ export const useAuth = create<AuthState>()(persist((set) => ({
         { withCredentials: true}
       );
   
-      set({isloading: false, isAuthenticated: res.status === 204 });
+      set({isloading: false, isAuthenticated: res.status === 204, error: "" });
     }
     catch(e) {
-      console.error(e);
-      set({isloading: false, isAuthenticated: false });
+      if (!(e instanceof AxiosError)) {
+        console.error(e)
+        set({isloading: false, isAuthenticated: false, error: "An error occurred. Try again later."})
+        return
+      }
+      
+      set({isloading: false, isAuthenticated: false, error: e.response?.data.message });
     }
   },
   login: async (email: string, password: string) => {
@@ -41,11 +46,16 @@ export const useAuth = create<AuthState>()(persist((set) => ({
         { timeout: 10000, withCredentials: true }
       )
 
-      set({isloading: false, isAuthenticated: res.status === 204});
+      set({isloading: false, isAuthenticated: res.status === 204, error: ""});
     }
-    catch(e) {
-      console.error(e);
-      set({isloading: false, isAuthenticated: false})
+    catch (e) {
+      if (!(e instanceof AxiosError)) {
+        console.error(e)
+        set({isloading: false, isAuthenticated: false, error: "An error occurred. Try again later."})
+        return
+      }
+
+      set({isloading: false, isAuthenticated: false, error: e.response?.data.message})
     }
   },
   logout: async () => {
@@ -57,7 +67,7 @@ export const useAuth = create<AuthState>()(persist((set) => ({
         { withCredentials: true }
       )
   
-      set({ isloading: false, isAuthenticated: res.status !== 204 })
+      set({ isloading: false, isAuthenticated: res.status !== 204, error: "" })
     }
     catch (e) {
       console.error(e)
@@ -72,15 +82,18 @@ export const useAuth = create<AuthState>()(persist((set) => ({
       })
 
       if (res.status === 204) {
-        set({ user: res.data, isAuthenticated: true, isloading: false })
+        set({ isAuthenticated: true, isloading: false })
       } else {
-        set({ user: null, isAuthenticated: false, isloading: false })
+        set({ isAuthenticated: false, isloading: false })
       }
     } catch (e) {
-      set({ user: null, isAuthenticated: false, isloading: false })
+      set({ isAuthenticated: false, isloading: false })
     }
   }
 }), {
   name: 'auth',
-  storage: createJSONStorage(() => sessionStorage)
+  storage: createJSONStorage(() => sessionStorage),
+  partialize: (state) => ({
+    isAuthenticated: state.isAuthenticated,
+  }),
 }))
