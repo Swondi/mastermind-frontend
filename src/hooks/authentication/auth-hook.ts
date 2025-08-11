@@ -82,7 +82,7 @@ export const useAuth = create<AuthState>()(persist((set) => ({
         withCredentials: true
       })
 
-      if (res.status === 200) {        
+      if (res.status === 200) {      
         set({
           isAuthenticated: res.data.isAuthenticated,
           isFirstTime: res.data.isFirstTime,

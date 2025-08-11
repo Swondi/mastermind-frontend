@@ -4,10 +4,12 @@ import { ProfileBar } from "../profile/profile-bar";
 import { SidebarEntry } from "./sidebar-entry";
 import { SidebarGroup } from "./sidebar-group";
 import { SidebarWrapper } from "./sidebar-wrapper";
+import { useUser } from "@/hooks/user/use-user";
 
 
 export function Sidebar() {
-  const user = { name: 'Franky', email: 'francesco.macaluso@gmail.com'}
+  const { user } = useUser()
+
   return (
     <SidebarWrapper>
         <SidebarHeader className="pt-5">
@@ -36,10 +38,7 @@ export function Sidebar() {
             <SidebarEntry icon={FiKey} text="Api Keys" />
             <SidebarEntry icon={FiSettings} text="Settings" href="/settings"/>
           </SidebarGroup>
-          <ProfileBar
-            username={user.name}
-            email={user.email}
-          />
+          <ProfileBar />
         </SidebarFooter>
       </SidebarWrapper>
   )

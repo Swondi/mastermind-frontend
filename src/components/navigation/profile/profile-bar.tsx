@@ -1,17 +1,11 @@
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { useAuth } from "@/hooks/authentication/auth-hook";
+import { useUser } from "@/hooks/user/use-user";
 import { FiLogOut } from "react-icons/fi";
 
-export function ProfileBar({
-  username,
-  email,
-  avatarUrl,
-}: {
-  username: string;
-  email: string;
-  avatarUrl?: string;
-}) {
+export function ProfileBar() {
   const { logout } = useAuth()
+  const { user } = useUser()
   
   return (
     <>
@@ -20,7 +14,7 @@ export function ProfileBar({
         onClick={() => console.log('profile clicked')}
       >
         <img
-          src={avatarUrl || "https://picsum.photos/64/64"}
+          src={user.pfp || "https://picsum.photos/64/64"}
           alt="Profile"
           className="w-10 h-10 rounded-full border"
         />
@@ -28,11 +22,11 @@ export function ProfileBar({
           <Tooltip delayDuration={500}>
             <TooltipTrigger asChild>
               <div className="flex flex-col">
-                <p className="font-medium truncate">{username}</p>
+                <p className="font-medium truncate">{user.name}</p>
               </div>
             </TooltipTrigger>
             <TooltipContent>
-              <p>Logged in as <span className="font-semibold">{email}</span></p>
+              <p>Logged in as <span className="font-semibold">{user.email}</span></p>
             </TooltipContent>
           </Tooltip>
           <div className="flex gap-2 text-sm">

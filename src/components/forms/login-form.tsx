@@ -12,6 +12,7 @@ import { LuLoaderCircle } from 'react-icons/lu'
 import { useAuth } from '@/hooks/authentication/auth-hook'
 import { useNavigate } from 'react-router'
 import { EyeOffIcon, EyeIcon } from 'lucide-react'
+import { useUser } from '@/hooks/user/use-user'
 
 const LoginFormSchema = z.object({
   email: z.email(),
@@ -30,6 +31,8 @@ const LoginFormSchema = z.object({
 export default function LoginForm() {
   const [ passwordVisible, setPasswordVisible] = useState<boolean>(false)
   const { login, isloading, error } = useAuth()
+  const { fetchUser } = useUser()
+
   const navigate = useNavigate()
 
   const form = useForm<z.infer<typeof LoginFormSchema>>({
@@ -42,6 +45,9 @@ export default function LoginForm() {
 
   async function onFormSubmit(data: z.infer<typeof LoginFormSchema>) {
     await login(data.email, data.password)
+    if (!error) {
+      await fetchUser();
+    }
   }
 
   return (

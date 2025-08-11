@@ -30,7 +30,9 @@ function App() {
     <StrictMode>
       <BrowserRouter>
         <Routes>
-          <Route path='/admin' element={<AdminOTAPage />}/>
+          <Route path='/admin' element={
+            <AdminOTAPage />
+          }/>
           <Route path='/login' element={
             <UnprotectedRoute>
               <LoginPage />
