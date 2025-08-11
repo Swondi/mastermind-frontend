@@ -4,12 +4,12 @@ import axios from 'axios'
 
 interface AuthState {
   user: { id: number; email: string } | null
-  register: (email: string, password: string) => Promise<void>
-  login: (email: string, password: string) => Promise<void>
-  logout: () => Promise<void>
-  getSensitiveData: () => Promise<any>
   isAuthenticated: boolean,
   isloading: boolean,
+  register: (email: string, password: string) => Promise<void>
+  login: (email: string, password: string) => Promise<void>
+  logout: () => Promise<void>,
+  checkAuth: () => Promise<void>
 }
 
 export const useAuth = create<AuthState>()(persist((set) => ({
@@ -45,7 +45,7 @@ export const useAuth = create<AuthState>()(persist((set) => ({
     }
     catch(e) {
       console.error(e);
-      set({isloading: false, isAuthenticated: false});
+      set({isloading: false, isAuthenticated: false})
     }
   },
   logout: async () => {
@@ -57,21 +57,29 @@ export const useAuth = create<AuthState>()(persist((set) => ({
         { withCredentials: true }
       )
   
-      set({ isloading: false, isAuthenticated: res.status !== 204 });
+      set({ isloading: false, isAuthenticated: res.status !== 204 })
     }
     catch (e) {
       console.error(e)
       set({isloading: false})
     }
   },
-  getSensitiveData: async () => {
-    const res = await axios.get(
-      `${import.meta.env.VITE_BACKEND_URL}/api/get/data`,
-      { withCredentials: true }
-    )
+  checkAuth: async () => {
+    set({ isloading: true });
+    try {
+      const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/auth/me`, {
+        withCredentials: true
+      })
 
-    set({ user: { 'email': res.status === 200 ? res.data['user'] : res.statusText, id: 1999 }})
-  },
+      if (res.status === 204) {
+        set({ user: res.data, isAuthenticated: true, isloading: false })
+      } else {
+        set({ user: null, isAuthenticated: false, isloading: false })
+      }
+    } catch (e) {
+      set({ user: null, isAuthenticated: false, isloading: false })
+    }
+  }
 }), {
   name: 'auth',
   storage: createJSONStorage(() => sessionStorage)
