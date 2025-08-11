@@ -2,8 +2,8 @@ import { useAuth } from "@/hooks/authentication/auth-hook"
 import { useEffect } from "react"
 import { Navigate } from "react-router"
 
-export function ProtectedRoute({ children }: { children: React.ReactNode }) {
-  const { isAuthenticated, isloading, isFirstTime, checkAuth } = useAuth()
+export function UnprotectedRoute({ children }: { children: React.ReactNode }) {
+  const { isloading, isFirstTime, checkAuth } = useAuth()
 
   useEffect(() => {
     checkAuth()
@@ -15,10 +15,6 @@ export function ProtectedRoute({ children }: { children: React.ReactNode }) {
 
   if (isFirstTime) {
     return <Navigate to="/admin" replace />
-  }
-
-  if (!isAuthenticated) {
-    return <Navigate to="/login" replace />
   }
 
   return children

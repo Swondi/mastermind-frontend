@@ -3,6 +3,7 @@ import { createJSONStorage, persist } from 'zustand/middleware'
 import axios, { AxiosError } from 'axios'
 
 interface AuthState {
+  isFirstTime: boolean,
   isAuthenticated: boolean
   isloading: boolean
   error: string
@@ -13,6 +14,7 @@ interface AuthState {
 }
 
 export const useAuth = create<AuthState>()(persist((set) => ({
+  isFirstTime: false,
   isAuthenticated: document.cookie.includes('at=') && document.cookie.includes('rt='),
   isloading: false,
   error: "",
@@ -45,7 +47,6 @@ export const useAuth = create<AuthState>()(persist((set) => ({
         { email: email, password: password },
         { timeout: 10000, withCredentials: true }
       )
-
       set({isloading: false, isAuthenticated: res.status === 204, error: ""});
     }
     catch (e) {
@@ -81,10 +82,17 @@ export const useAuth = create<AuthState>()(persist((set) => ({
         withCredentials: true
       })
 
-      if (res.status === 204) {
-        set({ isAuthenticated: true, isloading: false })
+      if (res.status === 200) {        
+        set({
+          isAuthenticated: res.data.isAuthenticated,
+          isFirstTime: res.data.isFirstTime,
+          isloading: false
+        })
       } else {
-        set({ isAuthenticated: false, isloading: false })
+        set({
+          isAuthenticated: false,
+          isloading: false
+        })
       }
     } catch (e) {
       set({ isAuthenticated: false, isloading: false })
@@ -95,5 +103,6 @@ export const useAuth = create<AuthState>()(persist((set) => ({
   storage: createJSONStorage(() => sessionStorage),
   partialize: (state) => ({
     isAuthenticated: state.isAuthenticated,
+    isFirstTime: state.isFirstTime,
   }),
 }))

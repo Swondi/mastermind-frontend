@@ -12,7 +12,10 @@ import { NotificationSettings } from './pages/settings/notification-settings'
 import { AppearanceSettings } from './pages/settings/appearance-settings'
 import { useSettings } from './hooks/system/use-settings'
 import { ProtectedRoute } from './components/navigation/routes/protected-route'
+import { UnprotectedRoute } from './components/navigation/routes/unprotected-route'
 import { ForgotPasswordPage } from './pages/authentication/forgot-password-page'
+import { AdminOTAPage } from './pages/admin/admin-ota-page'
+import { NotFoundPage } from './pages/not-found/not-found'
 
 createRoot(document.getElementById('root')!).render(<App />)
 
@@ -27,8 +30,17 @@ function App() {
     <StrictMode>
       <BrowserRouter>
         <Routes>
-          <Route path='/login' element={<LoginPage />}/>
-          <Route path='/password-reset' element={<ForgotPasswordPage />}/>
+          <Route path='/admin' element={<AdminOTAPage />}/>
+          <Route path='/login' element={
+            <UnprotectedRoute>
+              <LoginPage />
+            </UnprotectedRoute>
+          }/>
+          <Route path='/password-reset' element={
+            <UnprotectedRoute>
+              <ForgotPasswordPage />
+            </UnprotectedRoute>
+          }/>
           <Route path='/' element={
             <ProtectedRoute>
               <Layout />
@@ -46,6 +58,12 @@ function App() {
             <Route path="notifications" element={<NotificationSettings />}/>
             <Route path="appearance"  element={<AppearanceSettings />}/>
           </Route>
+          <Route path='*' element={
+            // <UnprotectedRoute>
+              <NotFoundPage />
+            // </UnprotectedRoute>
+
+          }/>
         </Routes>
       </BrowserRouter>
     </StrictMode>

@@ -35,7 +35,7 @@ export default function LoginForm() {
   const form = useForm<z.infer<typeof LoginFormSchema>>({
     resolver: zodResolver(LoginFormSchema),
     defaultValues: {
-      email: 'franky@gmail.com',
+      email: 'test@gmail.com',
       password: 'FrancescoMaca2002'
     }
   })
@@ -45,7 +45,7 @@ export default function LoginForm() {
   }
 
   return (
-    <Card className="w-full max-w-sm">
+    <Card className="w-full max-w-md">
       <CardHeader>
         <CardTitle>
           Welcome to Mastermind
@@ -125,7 +125,7 @@ function FormPasswordInput({
           <div className="flex items-center justify-between">
             <Label htmlFor="password">Password</Label>
             <span
-              className="text-sm underline-offset-4 hover:underline select-none"
+              className="text-sm underline-offset-4 hover:underline select-none hover:cursor-pointer"
               onClick={onForgotPasswordClick}
             >
               Forgot password?
