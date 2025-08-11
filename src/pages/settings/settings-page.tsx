@@ -2,9 +2,16 @@ import { Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle }
 import { Separator } from "@/components/ui/separator";
 import { Outlet, useNavigate } from "react-router";
 import { IoClose } from 'react-icons/io5'
+import { useUser } from "@/hooks/user/use-user";
+import { useEffect } from "react";
 
 export default function SettingsPage() {
   const navigate = useNavigate()
+  const { fetchUser } = useUser()
+
+  useEffect(() => {
+    fetchUser()
+  }, []);
   
   return (
     <div className="max-w-4xl mx-auto p-5">
