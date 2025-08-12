@@ -45,16 +45,22 @@ export function NotificationSettings() {
             name="Node Offline Warnings"
             description="Alert when a node is offline."
             onChange={updateNp}
+            email={np['node_offline_warnings'].email}
+            mobile={np['node_offline_warnings'].mobile}
           />
           <NotificationPreference
             name="High Latency Alerts"
             description="Notify on high network latency."
             onChange={updateNp}
+            email={np['high_latency_alerts'].email}
+            mobile={np['high_latency_alerts'].mobile}
           />
           <NotificationPreference
             name="Security Breach Detected"
             description="Alert on suspicious activity."
             onChange={updateNp}
+            email={np['security_breach_detected'].email}
+            mobile={np['security_breach_detected'].mobile}
           />
         </NotificationSection>
 

@@ -1,4 +1,4 @@
-import { useAuth } from "@/hooks/authentication/auth-hook"
+import { useAuth } from "@/hooks/authentication/use-auth"
 import { useEffect } from "react"
 import { Navigate } from "react-router"
 import { AiOutlineLoading3Quarters } from "react-icons/ai";

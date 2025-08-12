@@ -1,15 +1,16 @@
 import { useAuth } from "@/hooks/authentication/use-auth"
 import { useEffect } from "react"
 import { AiOutlineLoading3Quarters } from "react-icons/ai"
-import { Navigate } from "react-router"
+import { useNavigate } from "react-router"
 
-export function ProtectedRoute({ children }: { children: React.ReactNode }) {
+export function OneTimeRoute({ children }: { children: React.ReactNode }) {
   const { isAuthenticated, isloading, isFirstTime, checkAuth } = useAuth()
+  const navigate = useNavigate()
 
   useEffect(() => {
     checkAuth()
   }, [checkAuth])
-
+  
   if (isloading) {
     return (
       <div className="flex items-center justify-center h-screen w-screen">
@@ -17,13 +18,9 @@ export function ProtectedRoute({ children }: { children: React.ReactNode }) {
       </div>
     )
   }
-
-  if (isFirstTime) {
-    return <Navigate to="/admin" replace />
-  }
-
-  if (!isAuthenticated) {
-    return <Navigate to="/login" replace />
+  
+  if (!isFirstTime) {
+    navigate(isAuthenticated ? '/' : '/login')
   }
 
   return children

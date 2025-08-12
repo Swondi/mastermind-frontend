@@ -16,6 +16,7 @@ import { UnprotectedRoute } from './components/navigation/routes/unprotected-rou
 import { ForgotPasswordPage } from './pages/authentication/forgot-password-page'
 import { AdminOTAPage } from './pages/admin/admin-ota-page'
 import { NotFoundPage } from './pages/not-found/not-found'
+import { OneTimeRoute } from './components/navigation/routes/one-time-route'
 
 createRoot(document.getElementById('root')!).render(<App />)
 
@@ -31,7 +32,9 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path='/admin' element={
-            <AdminOTAPage />
+            <OneTimeRoute>
+              <AdminOTAPage />
+            </OneTimeRoute>
           }/>
           <Route path='/login' element={
             <UnprotectedRoute>

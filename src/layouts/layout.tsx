@@ -1,4 +1,4 @@
-import { useAuth } from "@/hooks/authentication/auth-hook";
+import { useAuth } from "@/hooks/authentication/use-auth";
 import { Outlet, useNavigate } from "react-router";
 import { useEffect } from "react";
 import { Sidebar } from "@/components/navigation/sidebar/sidebar";

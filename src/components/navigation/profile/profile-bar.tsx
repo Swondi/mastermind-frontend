@@ -1,6 +1,6 @@
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import { useAuth } from "@/hooks/authentication/auth-hook";
+import { useAuth } from "@/hooks/authentication/use-auth";
 import { useUser } from "@/hooks/user/use-user";
 import { FiLogOut } from "react-icons/fi";
 
