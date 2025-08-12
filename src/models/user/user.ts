@@ -1,12 +1,11 @@
 
-
 export interface User {
   name: string;
   email: string;
   bio: string;
   website: string;
   pfp: string;
-  notificationPreferences: Map<string, boolean>
+  notificationPreference: Record<string, { email: boolean; mobile: boolean }>;
 }
 
 export const EmptyUser: User = {
@@ -15,5 +14,5 @@ export const EmptyUser: User = {
   bio: "",
   website: "",
   pfp: "",
-  notificationPreferences: new Map()
+  notificationPreference: {}
 }

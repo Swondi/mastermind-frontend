@@ -1,5 +1,6 @@
 import { useAuth } from "@/hooks/authentication/auth-hook"
 import { useEffect } from "react"
+import { AiOutlineLoading3Quarters } from "react-icons/ai"
 import { Navigate } from "react-router"
 
 export function ProtectedRoute({ children }: { children: React.ReactNode }) {
@@ -10,7 +11,11 @@ export function ProtectedRoute({ children }: { children: React.ReactNode }) {
   }, [checkAuth])
 
   if (isloading) {
-    return <div>Loading...</div>
+    return (
+      <div className="flex items-center justify-center h-screen w-screen">
+        <AiOutlineLoading3Quarters className="animate-spin repeat-infinite text-accent" size={64}/>    
+      </div>
+    )
   }
 
   if (isFirstTime) {

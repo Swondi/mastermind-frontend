@@ -38,6 +38,7 @@ export function Sidebar() {
             <SidebarEntry icon={FiKey} text="Api Keys" />
             <SidebarEntry icon={FiSettings} text="Settings" href="/settings"/>
           </SidebarGroup>
+          <div className="w-full h-0.5 bg-accent"></div>
           <ProfileBar />
         </SidebarFooter>
       </SidebarWrapper>

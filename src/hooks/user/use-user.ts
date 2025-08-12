@@ -5,25 +5,27 @@ import axios from 'axios'
 
 interface UserState {
   user: User,
+  isLoading: boolean,
   fetchUser: () => Promise<void>
-  saveUser: (user: Partial<User>) => Promise<void>
+  saveUser: (user: Partial<User>) => Promise<void>,
 }
 
 export const useUser = create<UserState>()(persist((set, get) => ({
   user: EmptyUser,
+  isLoading: false,
   fetchUser: async () => {
     try {
+      set({ isLoading: true })
       const res = await axios.get(
         `${import.meta.env.VITE_BACKEND_URL}/api/user/me`,
         { withCredentials: true}
       )
       
-      set({
-        user: res.data
-      })
+      set({ isLoading: false, user: res.data })
     }
     catch (e) {
       console.error('Error fetching the user: ' + e)
+      set({ isLoading: false, user: EmptyUser })
     }
   },
   saveUser: async (puser: Partial<User>) => {
@@ -44,8 +46,7 @@ export const useUser = create<UserState>()(persist((set, get) => ({
     catch (e) {
       console.error('Error fetching the user: ' + e)
     }
-  }
-
+  },
 }), {
   name: 'user',
   storage: createJSONStorage(() => sessionStorage)
